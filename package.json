@@ -1,0 +1,8 @@
+{
+  "name": "sports-league-db",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -p 'test_app.py' -v"
+  }
+}
