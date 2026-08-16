@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #111827;
+  color: white;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+.logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.hero-banner, .detail-layout {
+  padding: 2rem;
+}
+.hero-banner {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+}
+.search-section, .stats {
+  padding: 1rem 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+input, select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+.card {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+footer {
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+.sr-only {
+  position: absolute;
+  left: -9999px;
+}

@@ -1,27 +1,18 @@
-const leagueData = [
-	{
-		name: 'Premier League',
-		country: 'England',
-		revenue: 7.2,
-		revenueLabel: '$7.2B',
-		sport: 'Football',
-		leagueType: 'Professional',
-		founded: 1992,
-		clubs: 20,
-		detailPage: 'premier-league.html'
-	},
-	{
-		name: 'NFL',
-		country: 'USA',
-		revenue: 20,
-		revenueLabel: '$20B',
-		sport: 'American Football',
-		leagueType: 'Professional',
-		founded: 1920,
-		clubs: 32,
-		detailPage: 'nfl.html'
-	}
-];
+const leagueData = Array.isArray(window.importedLeagueData) && window.importedLeagueData.length
+	? window.importedLeagueData
+	: [
+		{
+			name: 'Premier League',
+			country: 'England',
+			revenue: 7.2,
+			revenueLabel: '$7.2B',
+			sport: 'Football',
+			leagueType: 'Professional',
+			founded: 1992,
+			clubs: 20,
+			detailPage: 'premier-league.html'
+		}
+	];
 
 function parseRevenue(value) {
 	if (typeof value === 'number') {
@@ -40,6 +31,10 @@ function normalizeText(value) {
 	return String(value ?? '').trim().toLowerCase();
 }
 
+function getLeagueById(leagueId) {
+	return leagueData.find((league) => league.leagueId === leagueId) || null;
+}
+
 function getVisibleLeagues(query = '', sortBy = 'Revenue') {
 	const normalizedQuery = normalizeText(query);
 	const filteredLeagues = leagueData.filter((league) => {
@@ -49,11 +44,11 @@ function getVisibleLeagues(query = '', sortBy = 'Revenue') {
 
 	const sortedLeagues = [...filteredLeagues].sort((firstLeague, secondLeague) => {
 		if (sortBy === 'Highest Revenue') {
-			return parseRevenue(secondLeague.revenueLabel) - parseRevenue(firstLeague.revenueLabel);
+			return parseRevenue(secondLeague.revenue) - parseRevenue(firstLeague.revenue);
 		}
 
 		if (sortBy === 'Lowest Revenue') {
-			return parseRevenue(firstLeague.revenueLabel) - parseRevenue(secondLeague.revenueLabel);
+			return parseRevenue(firstLeague.revenue) - parseRevenue(secondLeague.revenue);
 		}
 
 		if (sortBy === 'League Name') {
@@ -148,6 +143,55 @@ function renderLeagueTable(options = {}) {
 	return visibleLeagues;
 }
 
+function renderLeagueDetail() {
+	const detailContainer = document.querySelector('#league-detail');
+	if (!detailContainer) {
+		return null;
+	}
+
+	const params = new URLSearchParams(window.location.search);
+	const leagueId = params.get('league');
+	const league = getLeagueById(leagueId);
+	if (!league) {
+		detailContainer.innerHTML = '<p class="detail-empty">No league found for that record.</p>';
+		return null;
+	}
+
+	detailContainer.innerHTML = `
+		<header class="detail-hero">
+			<p class="eyebrow">${league.sport} | ${league.country}</p>
+			<h1>${league.name}</h1>
+			<p>${league.name} is part of the imported dataset from your downloaded HTML export.</p>
+		</header>
+
+		<main class="detail-layout">
+			<section class="detail-content">
+				<h2>League overview</h2>
+				<p>${league.name} is a ${league.leagueType.toLowerCase()} league in ${league.country}, with ${league.clubs} teams and a reported revenue of ${league.revenueLabel}.</p>
+				<div class="detail-stats">
+					<div class="card"><h3>Estimated revenue</h3><p>${league.revenueLabel}</p></div>
+					<div class="card"><h3>Founded</h3><p>${league.founded || 'N/A'}</p></div>
+					<div class="card"><h3>Clubs</h3><p>${league.clubs}</p></div>
+				</div>
+			</section>
+			<aside class="details">
+				<h2>Quick facts</h2>
+				<dl class="facts">
+					<div><dt>League ID</dt><dd>${league.leagueId}</dd></div>
+					<div><dt>Country</dt><dd>${league.country}</dd></div>
+					<div><dt>Sport</dt><dd>${league.sport}</dd></div>
+					<div><dt>League type</dt><dd>${league.leagueType}</dd></div>
+					<div><dt>Top team</dt><dd>${league.topTeam}</dd></div>
+					<div><dt>Average salary</dt><dd>${league.averageSalary ? '$' + league.averageSalary.toLocaleString() : 'N/A'}</dd></div>
+					<div><dt>Viewership</dt><dd>${league.viewership || 'N/A'}</dd></div>
+				</dl>
+			</aside>
+		</main>
+	`;
+
+	return league;
+}
+
 function initializeLeagueTable() {
 	const searchInput = document.querySelector('#league-search');
 	const sortSelect = document.querySelector('#sort-select');
@@ -162,16 +206,22 @@ function initializeLeagueTable() {
 }
 
 if (typeof window !== 'undefined') {
-	window.addEventListener('DOMContentLoaded', initializeLeagueTable);
+	if (document.querySelector('#league-rows')) {
+		window.addEventListener('DOMContentLoaded', initializeLeagueTable);
+	} else if (document.querySelector('#league-detail')) {
+		window.addEventListener('DOMContentLoaded', renderLeagueDetail);
+	}
 }
 
 if (typeof module !== 'undefined' && module.exports) {
 	module.exports = {
 		leagueData,
 		parseRevenue,
+		getLeagueById,
 		getVisibleLeagues,
 		createLeagueRow,
 		renderLeagueTable,
-		initializeLeagueTable
+		initializeLeagueTable,
+		renderLeagueDetail
 	};
 }

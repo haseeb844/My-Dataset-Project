@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sports League Database</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <a class="logo" href="index.html">Sports League DB</a>
+    <ul>
+      <li><a class="active" href="index.html">Home</a></li>
+      <li><a href="premier-league.html">Premier League</a></li>
+      <li><a href="nfl.html">NFL</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero-banner">
+    <div class="hero-copy">
+      <span class="hero-badge">Featured leagues</span>
+      <h1>Sports League Database</h1>
+      <p>Search, filter, and compare the world's biggest sports leagues.</p>
+    </div>
+  </header>
+
+  <section class="search-section" id="search-controls">
+    <label class="sr-only" for="league-search">Search leagues</label>
+    <input id="league-search" name="league-search" type="text" placeholder="Search leagues..." />
+
+    <label class="sr-only" for="sort-select">Sort the league table</label>
+    <select id="sort-select" name="sort-select">
+      <option value="Revenue">Sort by Revenue</option>
+      <option value="Highest Revenue">Highest Revenue</option>
+      <option value="Lowest Revenue">Lowest Revenue</option>
+      <option value="League Name">League Name</option>
+      <option value="Founded">Founded</option>
+      <option value="Clubs">Clubs</option>
+    </select>
+  </section>
+
+  <section class="stats">
+    <div class="card">
+      <h3>Total Leagues</h3>
+      <p id="total-leagues">0</p>
+    </div>
+    <div class="card">
+      <h3>Results</h3>
+      <p id="result-count">0</p>
+    </div>
+    <div class="card">
+      <h3>Current Sort</h3>
+      <p id="current-sort">Revenue</p>
+    </div>
+  </section>
+
+  <main id="league-database">
+    <section class="results">
+      <h2>League Database</h2>
+      <table id="league-table">
+        <thead>
+          <tr>
+            <th>League</th>
+            <th>Country</th>
+            <th>Revenue</th>
+            <th>Sport</th>
+            <th>League Type</th>
+            <th>Founded</th>
+            <th>Clubs</th>
+          </tr>
+        </thead>
+        <tbody id="league-rows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>Sports League Database © 2026</footer>
+  <script src="script.js"></script>
+</body>
+</html>
