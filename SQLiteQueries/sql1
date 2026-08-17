@@ -1,0 +1,10 @@
+-- 1. Check table data counts
+SELECT 'sport' AS [Table], COUNT(*) AS [Rows] FROM sport
+UNION ALL
+SELECT 'league', COUNT(*) FROM league;
+
+-- 2. Check for zero errors (Should return empty)
+PRAGMA foreign_key_check;
+
+-- 3. Check database health (Should return 'ok')
+PRAGMA integrity_check;
