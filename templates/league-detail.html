@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>League Details | Sports League DB</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
+<!-- Top navigation -->
 <nav>
     <a class="logo" href="index.html">Sports League DB</a>
     <ul>
@@ -19,8 +21,10 @@
     </ul>
 </nav>
 
+<!-- Details are added inside this area -->
 <div id="league-detail"></div>
 
+<!-- Page footer -->
 <footer>Sports League Database © 2026</footer>
 
 <script src="imported-leagues.js"></script>

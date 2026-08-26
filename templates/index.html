@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sports League Database</title>
+    <title>Haseeb Sports League Database</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
+<!-- Top navigation -->
 <nav>
     <a class="logo" href="index.html">Sports League DB</a>
 
@@ -22,51 +21,57 @@
     </ul>
 </nav>
 
+<!-- Main welcome section -->
 <header class="hero-banner">
     <div class="hero-copy">
-        <span class="hero-badge">Featured leagues</span>
-        <h1> Only Sports League Database</h1>
-        <p>Search, filter and compare the world's richest sports leagues with a polished, modern experience.</p>
+        <h1> Sports League Database</h1>
+
+    
+        <p>Search, filter and compare the world's richest sports leagues.</p>
     </div>
     <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80" alt="A dynamic sports stadium scene with players and fans" class="hero-image">
 </header>
-
+<!-- Search and sort controls -->
+<form action="{{ url_for('home') }}" method="get">
 <section class="search-section" id="search-controls">
 
     <label class="sr-only" for="league-search">Search leagues</label>
-    <input id="league-search" name="league-search" type="text" placeholder="Search leagues...">
+    <input id="league-search" name="q" type="text" placeholder="Search leagues..." value="{{ search_query }}">
 
     <label class="sr-only" for="sort-select">Sort the league table</label>
-    <select id="sort-select" name="sort-select">
-        <option value="Revenue">Sort by Revenue</option>
-        <option value="Highest Revenue">Highest Revenue</option>
-        <option value="Lowest Revenue">Lowest Revenue</option>
-        <option value="League Name">League Name</option>
-        <option value="Founded">Founded</option>
-        <option value="Clubs">Clubs</option>
+    <select id="sort-select" name="sort">
+        <option value="Revenue" {% if current_sort == "Revenue" %}selected{% endif %}>Sort by Revenue</option>
+        <option value="Highest Revenue" {% if current_sort == "Highest Revenue" %}selected{% endif %}>Highest Revenue</option>
+        <option value="Lowest Revenue" {% if current_sort == "Lowest Revenue" %}selected{% endif %}>Lowest Revenue</option>
+        <option value="League Name" {% if current_sort == "League Name" %}selected{% endif %}>League Name</option>
+        <option value="Founded" {% if current_sort == "Founded" %}selected{% endif %}>Founded</option>
+        <option value="Clubs" {% if current_sort == "Clubs" %}selected{% endif %}>Clubs</option>
     </select>
 
 </section>
+</form>
 
+<!-- Small summary cards -->
 <section class="stats">
 
     <div class="card">
         <h3>Total Leagues</h3>
-        <p id="total-leagues">25</p>
+        <p id="total-leagues">{{ total_leagues }}</p>
     </div>
 
     <div class="card">
         <h3>Results</h3>
-        <p id="result-count">2</p>
+        <p id="result-count">{{ result_count }}</p>
     </div>
 
     <div class="card">
         <h3>Current Sort</h3>
-        <p id="current-sort">Revenue</p>
+        <p id="current-sort">{{ current_sort }}</p>
     </div>
 
 </section>
 
+<!-- Main league database -->
 <main id="league-database">
 
 <aside class="filters">
@@ -97,7 +102,19 @@
 <th>Clubs</th>
 </tr>
 
-<tbody id="league-rows"></tbody>
+<tbody id="league-rows">
+{% for league in rows %}
+<tr>
+<td><a href="{{ url_for('league_page', page_name=league.detailPage) }}">{{ league.name }}</a></td>
+<td>{{ league.country }}</td>
+<td>{{ league.revenueLabel }}</td>
+<td>{{ league.sport }}</td>
+<td>{{ league.leagueType }}</td>
+<td>{{ league.founded }}</td>
+<td>{{ league.clubs }}</td>
+</tr>
+{% endfor %}
+</tbody>
 
 </table>
 
@@ -113,91 +130,11 @@
 
 </main>
 
+<!-- Page footer -->
 <footer>
 
 Sports League Database © 2026
 
 </footer>
-
-<script src="imported-leagues.js"></script>
-<script src="script.js"></script>
-</body>
-</html> 
-=======
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sports League Database</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <nav>
-    <a class="logo" href="index.html">Sports League DB</a>
-    <ul>
-      <li><a class="active" href="index.html">Home</a></li>
-      <li><a href="premier-league.html">Premier League</a></li>
-      <li><a href="nfl.html">NFL</a></li>
-    </ul>
-  </nav>
-
-  <header class="hero-banner">
-    <div class="hero-copy">
-      <span class="hero-badge">Featured leagues</span>
-      <h1>Sports League Database</h1>
-      <p>Search, filter, and compare the world's biggest sports leagues.</p>
-    </div>
-  </header>
-
-  <section class="search-section" id="search-controls">
-    <label class="sr-only" for="league-search">Search leagues</label>
-    <input id="league-search" name="league-search" type="text" placeholder="Search leagues..." />
-
-    <label class="sr-only" for="sort-select">Sort the league table</label>
-    <select id="sort-select" name="sort-select">
-      <option value="Revenue">Sort by Revenue</option>
-      <option value="Highest Revenue">Highest Revenue</option>
-      <option value="Lowest Revenue">Lowest Revenue</option>
-      <option value="League Name">League Name</option>
-      <option value="Founded">Founded</option>
-      <option value="Clubs">Clubs</option>
-    </select>
-  </section>
-
-  <section class="stats">
-    <div class="card">
-      <h3>Total Leagues</h3>
-      <p id="total-leagues">0</p>
-    </div>
-    <div class="card">
-      <h3>Results</h3>
-      <p id="result-count">0</p>
-    </div>
-    <div class="card">
-      <h3>Current Sort</h3>
-      <p id="current-sort">Revenue</p>
-    </div>
-  </section>
-
-  <main id="league-database">
-    <section class="results">
-      <h2>League Database</h2>
-      <table id="league-table">
-        <thead>
-          <tr>
-            <th>League</th>
-            <th>Country</th>
-            <th>Revenue</th>
-            <th>Sport</th>
-            <th>League Type</th>
-            <th>Founded</th>
-            <th>Clubs</th>
-          </tr>
-        </thead>
-        <tbody id="league-rows"></tbody>
-      </table>
-    </section>
-  </main>
-
-  <footer>Sports League Database © 2026</footer>
-  <script src="script.js"></script>
 </body>
 </html>

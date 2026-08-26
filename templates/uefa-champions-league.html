@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UEFA Champions League | The Sports League DB</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
+<!-- Top navigation -->
 <nav>
     <a class="logo" href="index.html">Sports League DB</a>
     <ul>
@@ -18,12 +20,14 @@
     </ul>
 </nav>
 
+<!-- League introduction -->
 <header class="detail-hero">
     <p class="eyebrow">Football | Europe</p>
     <h1>UEFA Champions League</h1>
     <p>The most prestigious club competition in European football, featuring elite teams and some of the biggest matches in the sport.</p>
 </header>
 
+<!-- League information and facts -->
 <main class="detail-layout">
     <section class="detail-content">
         <h2>League overview</h2>
@@ -47,6 +51,7 @@
     </aside>
 </main>
 
+<!-- Page footer -->
 <footer>Sports League Database © 2026</footer>
 
 </body>
